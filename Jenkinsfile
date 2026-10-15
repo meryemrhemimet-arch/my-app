@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR_USER/my-app.git'
+                git branch: 'main', url: 'https://github.com/meryemrhemimet-arch/my-app.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('YOUR_DOCKERHUB_USER/my-app')
+                    docker.build('meryem021/my-app')
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-                        docker.image('YOUR_DOCKERHUB_USER/my-app').push('latest')
+                        docker.image('meryem021/my-app').push('latest')
                     }
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker rm -f my-app || true'
-                sh 'docker run -d --name my-app -p 3000:3000 YOUR_DOCKERHUB_USER/my-app:latest'
+                sh 'docker run -d --name my-app -p 3000:3000 meryem021/my-app:latest'
             }
         }
     }
